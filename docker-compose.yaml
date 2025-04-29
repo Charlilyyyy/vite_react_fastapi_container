@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  backend:
+    build: ./be_fastapi
+    container_name: fastapi_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./be_fastapi:/app
+    depends_on:
+      - frontend
+
+  frontend:
+    build: ./fe_react
+    container_name: react_frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./fe_react:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: npm run dev
